@@ -118,4 +118,4 @@ npm run start:production
 
 ## Conclusion
 
-Utilizing `.env.production` and `.env.development` files in your project allows you to manage environment variables effectively. By following this guide, you can securely store and use configuration data and environment-specific settings, ensuring your project remains adaptable and secure across various environments.
+Utilizing `.env.production` and `.env.development` files in your project allows you to manage environment variables effectively. By following this guide, you can securely store and use configuration data and environment-specific settings, ensuring your project remains adaptable and secure across various environments.# reactproject
