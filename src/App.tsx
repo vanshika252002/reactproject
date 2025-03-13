@@ -9,8 +9,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './Store';
 import RootRouter from './Routes/RootRouter';
-import Header from './Views/Header';
-
+import "@fortawesome/fontawesome-free/css/all.min.css";
 const baseName = import.meta.env.VITE_BASE_NAME;
 
 const router = createBrowserRouter(
@@ -22,12 +21,11 @@ function App() {
   // const [count, setCount] = useState<number>(0);
   return (
    <div>
-    
+   
      <Provider store={store}>
       <PersistGate persistor={persistor}>
         <HelmetProvider>
           <RouterProvider router={router} />
-          <Header/>
         </HelmetProvider>
       </PersistGate>
     </Provider>

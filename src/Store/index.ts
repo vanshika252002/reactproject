@@ -44,6 +44,9 @@ const store = configureStore({
 const persistor = persistStore(store);
 setupListeners(store.dispatch);
 // types
+
+
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
