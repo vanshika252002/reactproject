@@ -1,4 +1,4 @@
-import Prompt from '../../Components/Atom/Blocker';
+// import Prompt from '../../Components/Atom/Blocker';
 import { useDemoApiQuery } from '../../Services/Api/module/demoApi';
 
 export default function Dashboard() {
@@ -7,7 +7,7 @@ export default function Dashboard() {
   return (
     <div>
       Dashboard
-      <Prompt when message="Are you sure you want to leave?" />
+      {/* <Prompt when message="Are you sure you want to leave?" /> */}
     </div>
   );
 }
