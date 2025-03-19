@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, ZoomControl, Marker } from 'react-leaflet';
 import { Icon } from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
-import { flightLogo } from '../../assets';
+import { ICONS } from '../../assets';
 import './body.css';
 
 function Body() {
@@ -21,7 +21,7 @@ function Body() {
     { geocode: [15.2993, 74.124], popUp: 'Goa' },
   ];
   const customIcon = new Icon({
-    iconUrl: flightLogo,
+    iconUrl: ICONS.flightLogo,
     iconSize: [40, 40],
   });
   return (

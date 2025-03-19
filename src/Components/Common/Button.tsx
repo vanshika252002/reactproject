@@ -1,10 +1,14 @@
 import React from 'react';
 
 interface ButtonProps {
-  label: string;
+  label?: string;
   onClick?: () => void;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
+  className?: string;
+  showImage?: boolean;
+  altText?: string;
+  imageSrc?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -12,15 +16,19 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   disabled,
   type = 'button',
+  className,
+  showImage,
+  imageSrc,
+  altText = 'button image',
 }) => {
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       type={type}
-      className="button"
+      className={className}
     >
-      {label}
+      {showImage && imageSrc ? <img src={imageSrc} alt={altText} /> : label}
     </button>
   );
 };

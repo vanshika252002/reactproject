@@ -5,6 +5,7 @@ function PublicLayout({ children }: AppLayoutProps): JSX.Element {
   return (
     <>
       {children}
+
       {/* <Footer /> */}
     </>
   );

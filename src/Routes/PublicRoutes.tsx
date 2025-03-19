@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/Constants';
-import Dashboard from '../Views/Dashboard/Dashboard';
+// import Dashboard from '../Views/Dashboard/Dashboard';
 import { CustomRouter } from './RootRoutes';
 import SignUp from '../Views/signup/SignUp';
 import Login from '../Views/login/Login';
@@ -8,7 +8,7 @@ import Login from '../Views/login/Login';
 export const PUBLIC_ROUTES: Array<CustomRouter> = [
   {
     path: ROUTES_CONFIG.HOMEPAGE.path,
-    element: <Dashboard />,
+    element: <Login />,
     title: ROUTES_CONFIG.HOMEPAGE.title,
   },
   {

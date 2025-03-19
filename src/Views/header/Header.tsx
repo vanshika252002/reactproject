@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
-import { headerLogo, searchLogo } from '../../assets';
+
 import { Input } from '../../Components/Common';
+import { ICONS } from '../../assets';
+import { DATA } from '..';
 import './header.css';
 
 type HeaderProps = {
@@ -8,13 +10,13 @@ type HeaderProps = {
 };
 const Header: React.FC<HeaderProps> = ({ children }) => {
   return (
-    <div className="header-container">
-      <img src={headerLogo} alt="Logo" />
-      <div className="search-container">
-        <img src={searchLogo} alt="Search Icon" />
-        <Input type="text" />
+    <div className={DATA.HeaderContainer}>
+      <img src={ICONS.headerLogo} alt={DATA.Logo} />
+      <div className={DATA.SearchContainer}>
+        <img src={ICONS.searchLogo} alt={DATA.Logo} />
+        <Input type={DATA.TypeText as any} />
       </div>
-      <div className="header-children">{children}</div>
+      <div className={DATA.HeaderChildren}>{children}</div>
     </div>
   );
 };

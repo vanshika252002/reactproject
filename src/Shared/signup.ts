@@ -3,23 +3,22 @@ import * as Yup from 'yup';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { FormikHelpers } from 'formik';
 import { auth } from '../Components/firebase';
+import { DATA } from '../Views';
 
 interface SignUpFormValues {
   email: string;
   password: string;
   confirmPassword: string;
 }
-
+export const initialValues = { email: '', password: '', confirmPassword: '' };
 export const validationSchema = Yup.object({
-  email: Yup.string()
-    .email('Invalid email format')
-    .required('Email is required'),
+  email: Yup.string().email(DATA.InvalidEmail).required(DATA.EmailRequired),
   password: Yup.string()
-    .min(6, 'Password must be at least 6 characters')
-    .required('Password is required'),
+    .min(6, DATA.PasswordLength)
+    .required(DATA.PasswordRequired),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password')], 'Passwords must match')
-    .required('Confirm Password is required'),
+    .oneOf([Yup.ref(DATA.Password)], DATA.PasswordMatching)
+    .required(DATA.ConfirmPasswordRequired),
 });
 
 export const handleSignUpSubmit = async (
@@ -28,11 +27,8 @@ export const handleSignUpSubmit = async (
 ) => {
   try {
     await createUserWithEmailAndPassword(auth, values.email, values.password);
-    console.log('User registered successfully');
   } catch (error) {
     console.error(error);
   }
-  alert('Form submitted successfully!');
-  console.log('Form Data:', values);
   resetForm();
 };

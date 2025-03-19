@@ -7,17 +7,22 @@ const ROUTES = {
   REGISTER: '/register',
   ABOUT: '/about-us',
   SIGNUP: '/signup',
+  LOGOUT: '/logout',
 };
 
 const WILDCARD_ROUTES = {
-  PUBLIC: ROUTES.HOMEPAGE,
-  PRIVATE: ROUTES.LOGIN,
+  PUBLIC: ROUTES.LOGIN,
+  PRIVATE: ROUTES.HOMEPAGE,
 };
 
 const ROUTES_CONFIG = {
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
     title: 'Master Plan',
+  },
+  LOGOUT: {
+    path: ROUTES.LOGOUT,
+    title: 'Logout',
   },
   LOGIN: {
     path: ROUTES.LOGIN,
@@ -36,7 +41,5 @@ const ROUTES_CONFIG = {
     title: 'Sign Up',
   },
 };
-
-export const initialValues = { email: '', password: '', confirmPassword: '' };
 
 export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG };

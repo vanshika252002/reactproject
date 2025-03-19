@@ -1,24 +1,24 @@
-import React from 'react'; // third party libraries
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Formik, Form } from 'formik';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '../../Shared/Constants';
-import { Button } from '../../Components/Common'; // constants
-import { validationSchema, onSubmit } from '../../Shared/login';
+import { Button, FormInput } from '../../Components/Common';
+import { validationSchema, onSubmit, initialValues } from '../../Shared/login';
 import useLogin from './hooks/useLogin';
+import { DATA } from '../index';
 
-import { google } from '../../assets';
-import './login.css'; // for styling
-
-const initialValues = { email: '', password: '' };
+import { ICONS } from '../../assets';
+import './login.css';
 
 const Login: React.FC = () => {
   const { handleGoogleLogin } = useLogin();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
-    <div className="signup-container">
+    <div className={DATA.FormContainer}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -26,35 +26,39 @@ const Login: React.FC = () => {
           onSubmit(values, formikHelpers, dispatch)
         }
       >
-        <Form className="signup-form">
+        <Form className={DATA.Form}>
           <h1>Login</h1>
-
-          <label>Email</label>
-          <Field type="email" name="email" />
-          <ErrorMessage name="email" component="div" className="error" />
-
-          <label>Password</label>
-          <Field type="password" name="password" />
-          <ErrorMessage name="password" component="div" className="error" />
-
-          <Button label="Login" type="submit" />
-
-          <div className="or-divider">OR</div>
-          <button
-            type="button"
-            className="google-btn"
+          <FormInput type={DATA.Email} name={DATA.Email} label={DATA.Email} />
+          <FormInput
+            type={DATA.Password}
+            name={DATA.Password}
+            label={DATA.Email}
+          />
+          <Button
+            label={DATA.Login}
+            type={DATA.Submit as any}
+            showImage={false}
+          />
+          <div className={DATA.OrDivider}>{DATA.Or}</div>
+          <Button
+            type={DATA.TypeButton as any}
+            className={DATA.GoggleButton}
             onClick={handleGoogleLogin}
-          >
-            <img src={google} alt="Google" />
-          </button>
-
+            showImage
+            imageSrc={ICONS.google}
+          />
           <p>
-            Don't have an account? <Link to={ROUTES.SIGNUP}>Sign up</Link>
+            {DATA.DontHave}
+            <span
+              onClick={() => navigate(ROUTES.SIGNUP)}
+              style={{ color: '#007bff' }}
+            >
+              {DATA.SignUp}
+            </span>
           </p>
         </Form>
       </Formik>
     </div>
   );
 };
-
 export default Login;

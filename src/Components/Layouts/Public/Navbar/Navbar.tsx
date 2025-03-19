@@ -1,8 +1,8 @@
 import './navbar.scss';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
-import { ROUTES } from '../../../../Shared/Constants';
-import Header from '../../../../Views/header/Header';
+// import { ROUTES } from '../../../../Shared/Constants';
+// import Header from '../../../../Views/header/Header';
 // import Body from '../../../../Views/body/Body';
 
 export function Navbar() {
@@ -11,11 +11,13 @@ export function Navbar() {
       {/* <header className="header d-flex" id="header">
       <Link to={ROUTES.HOMEPAGE}>Home page</Link>
       <Link to={ROUTES.LOGIN}>Login</Link>
-    </header> */}
-      <Header>
-        <Link to={ROUTES.LOGIN}>Login</Link>
-        <Link to={ROUTES.SIGNUP}>Signup</Link>
+    </header> 
+    
+
+     <Header>
+        <Link to={ROUTES.LOGOUT}>Logout</Link>
       </Header>
+    */}
     </div>
   );
 }

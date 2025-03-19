@@ -1,63 +1,68 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Link } from 'react-router-dom';
+import { Formik, Form } from 'formik';
+import { useNavigate } from 'react-router-dom';
 
-import { ROUTES, initialValues } from '../../Shared/Constants';
-import { validationSchema, handleSignUpSubmit } from '../../Shared/signup';
-import { Button } from '../../Components/Common';
+import { ROUTES } from '../../Shared/Constants';
+import {
+  validationSchema,
+  handleSignUpSubmit,
+  initialValues,
+} from '../../Shared/signup';
+import { Button, FormInput } from '../../Components/Common';
 import useSignUp from './hooks/useSignUp';
 
-import { google } from '../../assets';
+import { ICONS } from '../../assets';
+import { DATA } from '../index';
 import './signup.css';
 
 const SignUp: React.FC = () => {
   const { handleGoogleSignIn } = useSignUp();
-
+  const navigate = useNavigate();
   return (
-    <div className="signup-container">
+    <div className={DATA.FormContainer}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSignUpSubmit}
       >
-        <Form className="signup-form">
-          <h1>Sign Up</h1>
-
-          <label>Email</label>
-          <Field type="email" name="email" />
-          <ErrorMessage name="email" component="div" className="error" />
-
-          <label>Password</label>
-          <Field type="password" name="password" />
-          <ErrorMessage name="password" component="div" className="error" />
-
-          <label>Confirm Password</label>
-          <Field type="password" name="confirmPassword" />
-          <ErrorMessage
-            name="confirmPassword"
-            component="div"
-            className="error"
+        <Form className={DATA.Form}>
+          <h1>{DATA.SignUp}</h1>
+          <FormInput name={DATA.Email} type={DATA.Email} label={DATA.Email} />
+          <FormInput
+            name={DATA.Password}
+            type={DATA.Password}
+            label={DATA.Password}
           />
-
-          <Button label="Sign Up" type="submit" />
-
-          <div className="or-divider">OR</div>
-
-          <button
-            type="button"
-            className="google-btn"
+          <FormInput
+            name={DATA.ConfirmPassword}
+            type={DATA.Password}
+            label={DATA.ConfirmPassword}
+          />
+          <Button
+            label={DATA.SignUp}
+            type={DATA.Submit as any}
+            showImage={false}
+          />
+          <div className={DATA.OrDivider}>{DATA.Or}</div>
+          <Button
+            type={DATA.TypeButton as any}
+            className={DATA.GoggleButton}
             onClick={handleGoogleSignIn}
-          >
-            <img src={google} alt="Google" />
-          </button>
+            showImage
+            imageSrc={ICONS.google}
+          />
           <p>
-            Already have an account?
-            <Link to={ROUTES.LOGIN}> Login </Link>
+            {DATA.AlreadyHave}
+            <span
+              onClick={() => navigate(ROUTES.LOGIN)}
+              style={{ color: '#007bff' }}
+            >
+              {DATA.Login}
+            </span>
           </p>
         </Form>
       </Formik>
     </div>
   );
 };
-
 export default SignUp;
