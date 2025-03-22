@@ -1,9 +1,9 @@
 // import Prompt from '../../Components/Atom/Blocker';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import { useDemoApiQuery } from '../../Services/Api/module/demoApi';
 import Body from '../body/Body';
 import Header from '../header/Header';
-import { ROUTES } from '../../Shared/Constants';
+//import { ROUTES } from '../../Shared/Constants';
 
 export default function Dashboard() {
   const { data, error } = useDemoApiQuery('');
@@ -11,9 +11,9 @@ export default function Dashboard() {
   return (
     <div>
       Dashboard
-      <Header>
-        <Link to={ROUTES.LOGOUT}>Logout</Link>
-      </Header>
+      <Header/>
+       
+    
       <Body />
       {/* <Prompt when message="Are you sure you want to leave?" /> */}
     </div>
