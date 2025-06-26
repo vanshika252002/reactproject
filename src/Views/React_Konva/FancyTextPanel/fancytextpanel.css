@@ -1,0 +1,125 @@
+/* FancyTextPanel.css */
+.fancy-text-panel {
+    padding: 15px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .panel-header h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .panel-header button {
+    padding: 5px 10px;
+    background: #e0e0e0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .styles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .style-option {
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .style-preview {
+    padding: 15px 5px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+  }
+  
+  /* Style preview examples */
+  .button-preview {
+    background: linear-gradient(#4CAF50, #2E7D32);
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  }
+  
+  .steel-preview {
+    background: linear-gradient(#e6e6e6, #999999);
+    color: #333;
+    border: 1px solid #333;
+  }
+  
+  .candy-preview {
+    background: linear-gradient(#ff9a9e, #fad0c4);
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  }
+  
+  .techno-preview {
+    background: #000;
+    color: #0ff;
+    text-shadow: 0 0 5px #0ff;
+  }
+  
+  .gradient-preview {
+    background: linear-gradient(to right, #ff8a00, #e52e71);
+    color: white;
+  }
+  
+  .php-preview {
+    background: #8892BF;
+    color: white;
+    font-family: monospace;
+  }
+  
+  .frozen-preview {
+    background: linear-gradient(#00d2ff, #3a7bd5);
+    color: white;
+    text-shadow: 0 0 5px rgba(0,0,0,0.3);
+  }
+  
+  .font-family-section {
+    margin-top: 20px;
+  }
+  
+  .font-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .font-option {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .font-option:hover {
+    background: #f0f0f0;
+  }
+  
+  .text-properties {
+    margin-top: 20px;
+  }
+  
+  .color-picker {
+    margin-top: 10px;
+  }
+  .filter-btn-title-active{
+    color: white;
+    font-size: 0.8rem;
+  }

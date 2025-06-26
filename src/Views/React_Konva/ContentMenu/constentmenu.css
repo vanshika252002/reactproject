@@ -1,0 +1,20 @@
+
+.context-menu {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  .menu-item {
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  
+  .menu-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .menu-divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 4px 0;
+  }

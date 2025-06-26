@@ -1,14 +1,11 @@
+// import CardWrapper from '../../../Views/CardWrapper';
 import { AppLayoutProps } from '../AppLayout.d';
-import Navbar from '../Public/Navbar';
+import '../../../App.css';
+// import Navbar from '../Public/Navbar';
 
 function PrivateLayout({ children }: AppLayoutProps): JSX.Element {
-  return (
-    <>
-      <Navbar />
-      {children}
-      {/* <Footer /> */}
-    </>
-  );
+  console.log(children);
+  return <div className="root">{children}</div>;
 }
 
 export default PrivateLayout;

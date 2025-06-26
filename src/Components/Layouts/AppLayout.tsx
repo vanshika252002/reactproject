@@ -3,13 +3,15 @@ import PublicLayout from './Public/PublicLayout';
 import { AppLayoutProps } from './AppLayout.d';
 
 function AppLayout({ isAuthenticated, children }: AppLayoutProps) {
-  return(<div>
-   { isAuthenticated ? 
-    <PrivateLayout>{children}</PrivateLayout>
-   : 
-    <PublicLayout>{children}</PublicLayout>}
-  
-  </div>)
+  return (
+    <div className="root">
+      {isAuthenticated ? (
+        <PrivateLayout>{children}</PrivateLayout>
+      ) : (
+        <PublicLayout>{children}</PublicLayout>
+      )}
+    </div>
+  );
 }
 
 export default AppLayout;
