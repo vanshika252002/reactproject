@@ -32,6 +32,17 @@ const TemplateContainer = ({ isLoading, templates, loadTemplate }: any) => {
                     className="thumbnail-image"
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.display = 'none';
+                      (
+                        e.target as HTMLImageElement
+                      ).parentElement!.innerHTML = `
+                        <div class="thumbnail-placeholder">
+                          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="3" y="3" width="18" height="14" rx="2" ry="2" />
+                            <circle cx="8.5" cy="8.5" r="1.5" />
+                            <polyline points="21,15 16,10 5,21" />
+                          </svg>
+                        </div>
+                      `;
                     }}
                   />
                 ) : (
@@ -53,6 +64,9 @@ const TemplateContainer = ({ isLoading, templates, loadTemplate }: any) => {
 
               <div className="template-info">
                 <span className="template-name">{template.name}</span>
+                <span className="template-date">
+                  {new Date(template.data.createdAt).toLocaleDateString()}
+                </span>
               </div>
 
               <button
@@ -63,7 +77,9 @@ const TemplateContainer = ({ isLoading, templates, loadTemplate }: any) => {
                 className="load-btn"
                 disabled={isLoading}
               >
-                Load
+                {isLoading && selectedTemplate === template.name
+                  ? 'Loading...'
+                  : 'Load'}
               </button>
             </div>
           ))}

@@ -86,12 +86,30 @@ const CardWrapper = () => {
       const thumbnailWidth = originalWidth * scale;
       const thumbnailHeight = originalHeight * scale;
 
-      const dataURL = stage.toDataURL({
+      const tempStage = new Konva.Stage({
+        width: thumbnailWidth,
+        height: thumbnailHeight,
+        container: document.createElement('div'),
+      });
+
+      // Clone the original layer
+      const originalLayer = stage.children[0];
+      const clonedLayer = originalLayer.clone();
+
+      // Scale down the cloned layer
+      clonedLayer.scale({ x: scale, y: scale });
+      tempStage.add(clonedLayer);
+
+      // Generate data URL
+      const dataURL = tempStage.toDataURL({
         width: thumbnailWidth,
         height: thumbnailHeight,
         quality: 0.8,
         pixelRatio: 1,
       });
+
+      // Clean up
+      tempStage.destroy();
 
       return dataURL;
     } catch (error) {
@@ -193,6 +211,7 @@ const CardWrapper = () => {
       };
 
       await saveTemplate(templateName, templateData);
+
       alert('Template saved successfully!');
       setTemplateName('');
       loadTemplates();
