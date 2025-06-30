@@ -78,18 +78,14 @@ const CardWrapper = () => {
     if (!stageRef.current) return null;
 
     try {
-      // Generate thumbnail at a smaller scale
       const stage = stageRef.current.getStage();
       const originalWidth = stage.width();
       const originalHeight = stage.height();
-
-      // Calculate thumbnail dimensions (max 200x200, maintaining aspect ratio)
       const maxSize = 200;
       const scale = Math.min(maxSize / originalWidth, maxSize / originalHeight);
       const thumbnailWidth = originalWidth * scale;
       const thumbnailHeight = originalHeight * scale;
 
-      // Create thumbnail
       const dataURL = stage.toDataURL({
         width: thumbnailWidth,
         height: thumbnailHeight,
@@ -178,7 +174,6 @@ const CardWrapper = () => {
 
     setIsLoading(true);
     try {
-      // Generate thumbnail
       const thumbnail = generateThumbnail(stageRef);
 
       const templateData: TemplateData = {
@@ -268,7 +263,8 @@ const CardWrapper = () => {
       fontStyle: textFontWeight,
       fill: textColor,
       zIndex: maxZIndex + 1,
-      width: 200,
+      width: textInput.length * (textFontSize * 0.6), // Estimate width
+      height: textFontSize * 1.2, // Height based on font size
     };
 
     setText([...text, newText]);
@@ -331,6 +327,7 @@ const CardWrapper = () => {
   ) => {
     const newImages = images.map((image) => {
       if (image.id === imageId) {
+        console.log('x and y', image.x, image.y);
         return {
           ...image,
           x: e.target.x(),
@@ -391,10 +388,15 @@ const CardWrapper = () => {
 
   const handleTextClick = (textId: string) => {
     if (selectedTextId === textId) {
+      const currentText = text.find((t) => t.id === textId);
+      if (currentText) {
+        setTextFontSize(currentText.fontSize);
+      }
       setSelectedTextId(null);
       setActiveFilter(null);
       return;
     }
+
     setSelectedTextId(textId);
     setSelectedShapeId(null);
     setSelectedImageId(null);
@@ -407,7 +409,6 @@ const CardWrapper = () => {
       setTextColor(textItem.fill);
     }
   };
-
   const updateShapeProperty = (property: keyof ShapeData, value: any) => {
     if (selectedShapeId) {
       setShapes(
@@ -415,31 +416,97 @@ const CardWrapper = () => {
           shape.id === selectedShapeId ? { ...shape, [property]: value } : shape
         )
       );
+
+      const node = stageRef.current?.findOne(`#${selectedShapeId}`);
+      if (node) {
+        const shape = shapes.find((s) => s.id === selectedShapeId);
+        if (!shape) return;
+
+        switch (property) {
+          case 'width':
+            if (shape.type === 'circle') {
+              (node as Konva.Circle).radius(value / 2);
+            } else if (shape.type === 'ellipse') {
+              (node as Konva.Ellipse).radiusX(value / 2);
+            } else {
+              node.width(value);
+            }
+            node.scaleX(1);
+            break;
+          case 'height':
+            if (shape.type === 'ellipse') {
+              (node as Konva.Ellipse).radiusY(value / 2);
+            } else {
+              node.height(value);
+            }
+            node.scaleY(1);
+            break;
+        }
+        node.getLayer()?.batchDraw();
+      }
     }
   };
-
   const updateImageProperty = (property: keyof ImageData, value: any) => {
     if (selectedImageId) {
-      setImages(
-        images.map((image) =>
+      setImages((prevImages) =>
+        prevImages.map((image) =>
           image.id === selectedImageId ? { ...image, [property]: value } : image
         )
       );
+
+      const node = stageRef.current?.findOne(
+        `#${selectedImageId}`
+      ) as Konva.Image;
+      if (node) {
+        if (property === 'width') {
+          node.width(value);
+          node.scaleX(1);
+        } else if (property === 'height') {
+          node.height(value);
+          node.scaleY(1);
+        }
+        node.getLayer()?.batchDraw();
+      }
     }
   };
 
+  // const updateImageProperty = (property: keyof ImageData, value: any) => {
+  //   if (selectedImageId) {
+  //     setImages(
+  //       images.map((image) =>
+  //         image.id === selectedImageId ? { ...image, [property]: value } : image
+  //       )
+  //     );
+  //   }
+  // };
+
+  //   if (selectedTextId) {
+  //     setText(
+  //       text.map((textItem) =>
+  //         textItem.id === selectedTextId
+  //           ? { ...textItem, [property]: value }
+  //           : textItem
+  //       )
+  //     );
+  //     if (property === 'fontSize') {
+  //       setTextFontSize(value);
+  //     }
+  //   }
+  // };
   const updateTextProperty = (property: keyof TextState, value: any) => {
     if (selectedTextId) {
-      setText(
-        text.map((textItem) =>
+      setText((prevText) =>
+        prevText.map((textItem) =>
           textItem.id === selectedTextId
             ? { ...textItem, [property]: value }
             : textItem
         )
       );
+      if (property === 'fontSize') {
+        setTextFontSize(value);
+      }
     }
   };
-
   const bringToFront = () => {
     const maxZIndex = Math.max(
       ...shapes.map((s) => s.zIndex),
@@ -619,7 +686,6 @@ const CardWrapper = () => {
         const container = stageRef.current?.getStage().container();
         if (container) container.style.cursor = 'default';
       },
-
       id: shape.id,
       key: shape.id,
       x: shape.x,
@@ -634,14 +700,44 @@ const CardWrapper = () => {
       onTransformEnd: () => {
         const node = stageRef.current?.findOne(`#${shape.id}`);
         if (node) {
-          if (shape.type === 'circle') {
-            const circle = node as Konva.Circle;
-            updateShapeProperty('width', circle.radius() * 2);
-            updateShapeProperty('height', circle.radius() * 2);
-          } else {
-            updateShapeProperty('width', node.width());
-            updateShapeProperty('height', node.height());
+          // For all shapes, update position and rotation
+          const updates: Partial<ShapeData> = {
+            x: node.x(),
+            y: node.y(),
+            rotation: node.rotation(),
+          };
+
+          // Shape-specific dimension updates
+          switch (shape.type) {
+            case 'rectangle':
+            case 'ellipse':
+              updates.width = Math.max(10, node.width() * node.scaleX());
+              updates.height = Math.max(10, node.height() * node.scaleY());
+              break;
+            case 'circle':
+              const circle = node as Konva.Circle;
+              updates.width = Math.max(10, circle.radius() * 2 * node.scaleX());
+              updates.height = Math.max(
+                10,
+                circle.radius() * 2 * node.scaleY()
+              );
+              break;
+            case 'triangle':
+            case 'star':
+              updates.width = Math.max(10, shape.width * node.scaleX());
+              updates.height = Math.max(10, shape.height * node.scaleY());
+              break;
           }
+
+          // Update state
+          setShapes(
+            shapes.map((s) => (s.id === shape.id ? { ...s, ...updates } : s))
+          );
+
+          // Reset scale
+          node.scaleX(1);
+          node.scaleY(1);
+          node.getLayer()?.batchDraw();
         }
       },
     };
@@ -697,15 +793,47 @@ const CardWrapper = () => {
         }
         onClick={() => handleImageClick(imageData.id)}
         onTap={() => handleImageClick(imageData.id)}
-        onDblTap={() => handleImageClick(imageData.id)}
         brightness={imageData.brightness}
         contrast={imageData.contrast}
+        saturation={imageData.saturation}
         opacity={imageData.opacity}
-        onDblClick={() => handleImageClick(imageData.id)}
+        onTransformEnd={() => {
+          const node = stageRef.current?.findOne(
+            `#${imageData.id}`
+          ) as Konva.Image;
+
+          if (node) {
+            // Calculate new dimensions based on scale
+            const newWidth = Math.max(10, node.width() * node.scaleX());
+            const newHeight = Math.max(10, node.height() * node.scaleY());
+
+            // Update state with new dimensions and reset scale
+            setImages(
+              images.map((img) =>
+                img.id === imageData.id
+                  ? {
+                      ...img,
+                      x: node.x(),
+                      y: node.y(),
+                      width: newWidth,
+                      height: newHeight,
+                      rotation: node.rotation(),
+                    }
+                  : img
+              )
+            );
+
+            // Reset scale after updating dimensions
+            node.scaleX(1);
+            node.scaleY(1);
+            node.getLayer()?.batchDraw();
+          }
+        }}
       />
     );
   };
   const renderText = (textData: TextState) => {
+    console.log('newFontSize', textData.fontSize);
     return (
       <>
         <KonvaText
@@ -726,14 +854,41 @@ const CardWrapper = () => {
           onTap={() => handleTextClick(textData.id)}
           onDblClick={() => handleTextClick(textData.id)}
           onDblTap={() => handleTextClick(textData.id)}
-          onTransform={() => {}}
           perfectDrawEnabled={false}
           listening={true}
+          onTransformEnd={(e) => {
+            console.log('node e', e.target);
+            const node = stageRef.current?.findOne(
+              `#${textData.id}`
+            ) as Konva.Text;
+            if (node) {
+              console.log('node  information is ', node.attrs.fontSize);
+              const scaleX = node.scaleX();
+              const scaleY = node.scaleY();
+
+              const scaleFactor = Math.max(scaleX, scaleY);
+              const newFontSize = Math.max(8, textData.fontSize * scaleFactor);
+
+              updateTextProperty('x', node.x());
+              updateTextProperty('y', node.y());
+              updateTextProperty('width', node.textWidth);
+              updateTextProperty('height', node.textHeight);
+
+              updateTextProperty('fontSize', newFontSize);
+              updateTextProperty('scaleX', 1);
+              updateTextProperty('scaleY', 1);
+
+              if (selectedTextId === textData.id) {
+                setTextFontSize(newFontSize);
+              }
+
+              node.getLayer()?.batchDraw();
+            }
+          }}
         />
       </>
     );
   };
-
   const selectedShape = shapes.find((s) => s.id === selectedShapeId);
   const selectedImage = images.find((i) => i.id === selectedImageId);
   const selectedText = text.find((t) => t.id === selectedTextId);
@@ -784,6 +939,9 @@ const CardWrapper = () => {
         renderImage={renderImage}
         renderText={renderText}
         transformerRef={transformerRef}
+        selectedTextId={selectedTextId}
+        selectedImageId={selectedImageId}
+        selectedShapeId={selectedShapeId}
       />
 
       {!activeFilter ? (

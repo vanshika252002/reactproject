@@ -1,7 +1,7 @@
 // src/Views/React_Konva/types.ts
 export interface ShapeData {
   id: string;
-  type: string;
+  type: 'rectangle' | 'circle' | 'triangle' | 'star' | 'ellipse';
   x: number;
   y: number;
   width: number;
@@ -10,6 +10,8 @@ export interface ShapeData {
   stroke: string;
   strokeWidth: number;
   zIndex: number;
+  rotation?: number;
+  cornerRadius?: number; // For rectangles
 }
 export interface ImageData {
   id: string;
@@ -48,4 +50,9 @@ export interface TextState {
   shadowBlur?: number;
   shadowOffsetX?: number;
   shadowOffsetY?: number;
+  height?: number;
+
+  scaleX?: number; 
+  scaleY?: number; 
+  originalFontSize?: number; 
 }

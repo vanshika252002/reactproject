@@ -1,4 +1,5 @@
 import { SketchPicker } from '@hello-pangea/color-picker';
+import { useEffect } from 'react';
 
 const ShapeComponent = ({
   deleteSelectedShape,
@@ -15,7 +16,9 @@ const ShapeComponent = ({
   setStrokeWidth,
   updateShapeProperty,
   bringToFront,
+  selectedImageId,
 }: any) => {
+  useEffect(() => {}, [selectedImageId]);
   return (
     <div className="shape-options">
       <div className="shape-buttons">
@@ -165,9 +168,8 @@ const ShapeComponent = ({
                 <label>Width:</label>
                 <div className="text-property">
                   <input
-                    type="range"
-                    min="20"
-                    max="300"
+                    key={`width-${selectedImageId}`}
+                    type="number"
                     value={selectedShape.width}
                     onChange={(e) =>
                       updateShapeProperty('width', parseInt(e.target.value))
@@ -181,9 +183,8 @@ const ShapeComponent = ({
                 <label>Height:</label>
                 <div className="text-property">
                   <input
-                    type="range"
-                    min="20"
-                    max="300"
+                    key={`height-${selectedImageId}`}
+                    type="number"
                     value={selectedShape.height}
                     onChange={(e) =>
                       updateShapeProperty('height', parseInt(e.target.value))

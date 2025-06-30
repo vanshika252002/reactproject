@@ -1,6 +1,5 @@
 import { SketchPicker } from '@hello-pangea/color-picker';
 import { useEffect, useRef } from 'react';
-import { Text as KonvaText } from 'konva/lib/shapes/Text';
 import Konva from 'konva';
 
 const TextComponent = ({
@@ -25,20 +24,59 @@ const TextComponent = ({
   setTextFontFamily,
   textColor,
   handleTextColorChange,
+  stageRef,
 }: any) => {
-  const textRef = useRef<KonvaText>(null);
   const transformerRef = useRef<Konva.Transformer>(null);
 
-  // Update transformer when selected text changes
   useEffect(() => {
-    if (selectedTextId && transformerRef.current && textRef.current) {
-      transformerRef.current.nodes([textRef.current]);
-      transformerRef.current.getLayer()?.batchDraw();
+    if (selectedTextId && transformerRef.current) {
+      const textNode = stageRef.current?.findOne(`#${selectedTextId}`);
+      if (textNode) {
+        textNode.x(textNode.x());
+        textNode.y(textNode.y());
+
+        transformerRef.current.nodes([textNode]);
+        transformerRef.current.resizeEnabled(true);
+        transformerRef.current.getLayer()?.batchDraw();
+      }
     } else if (transformerRef.current) {
       transformerRef.current.nodes([]);
       transformerRef.current.getLayer()?.batchDraw();
     }
   }, [selectedTextId]);
+  useEffect(() => {
+    if (selectedTextId && transformerRef.current) {
+      const textNode = stageRef.current?.findOne(`#${selectedTextId}`);
+      if (textNode) {
+        // Force update the position to ensure proper transformation
+        textNode.setAttrs({
+          x: textNode.x(),
+          y: textNode.y(),
+          width: textNode.width(),
+          height: textNode.height(),
+        });
+
+        transformerRef.current.nodes([textNode]);
+
+        // Configure transformer specifically for text
+        transformerRef.current.anchorSize(8);
+        transformerRef.current.borderStroke('#00ff00');
+        transformerRef.current.borderStrokeWidth(1);
+        transformerRef.current.enabledAnchors([
+          'top-center',
+          'middle-right',
+          'bottom-center',
+          'middle-left',
+        ]);
+        transformerRef.current.resizeEnabled(true);
+        transformerRef.current.getLayer()?.batchDraw();
+      }
+    } else if (transformerRef.current) {
+      transformerRef.current.nodes([]);
+      transformerRef.current.getLayer()?.batchDraw();
+    }
+  }, [selectedTextId]);
+
   return (
     <div className="text-options">
       <h4>Add Text</h4>
@@ -76,8 +114,6 @@ const TextComponent = ({
             <input
               className="input-font-size"
               type="number"
-              min="8"
-              max="100"
               value={textFontSize}
               onChange={(e) => {
                 const value = parseInt(e.target.value);
@@ -163,14 +199,15 @@ const TextComponent = ({
               <label>Font Size:</label>
               <div className="text-property">
                 <input
+                  key={`font-size-${selectedText?.id}`}
                   className="input-font-size"
-                  type="range"
-                  min="8"
-                  max="100"
-                  value={selectedText.fontSize}
-                  onChange={(e) =>
-                    updateTextProperty('fontSize', parseInt(e.target.value))
-                  }
+                  type="number"
+                  value={selectedText?.fontSize || textFontSize}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value);
+                    setTextFontSize(value);
+                    updateTextProperty('fontSize', value);
+                  }}
                 />
                 <span>px</span>
               </div>
@@ -263,23 +300,9 @@ const TextComponent = ({
                 }`}
                 onClick={() => handleTextClick(textItem.id)}
               >
-                <div className="text-preview">
-                  <span
-                    style={{
-                      fontFamily: textItem.fontFamily,
-                      fontSize: `${Math.min(textItem.fontSize, 16)}px`,
-                      fontWeight: textItem.fontStyle,
-                      color: textItem.fill,
-                    }}
-                  >
-                    {textItem.text.length > 20
-                      ? textItem.text.substring(0, 20) + '...'
-                      : textItem.text}
-                  </span>
-                </div>
                 <div className="text-info">
                   <small>
-                    {textItem.fontFamily} • {textItem.fontSize}px •{' '}
+                    {textItem.text} <br /> {textItem.fontSize}px •{'  '}
                     {textItem.fontStyle}
                   </small>
                 </div>
