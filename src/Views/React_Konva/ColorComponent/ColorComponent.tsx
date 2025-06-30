@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { SketchPicker } from '@hello-pangea/color-picker';
 const ColorComponent = ({
   selectedColor,
@@ -7,6 +8,7 @@ const ColorComponent = ({
   setBackgroundImage,
   setSelectedColor,
 }: any) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   return (
     <div className="color-picker-container">
       <div className="add-colors">
@@ -20,6 +22,7 @@ const ColorComponent = ({
         <h4 className="color-title">Background Image</h4>
         <div className="upload-wrapper">
           <input
+            ref={fileInputRef}
             className="choose-file"
             type="file"
             accept="image/*"
@@ -30,6 +33,9 @@ const ColorComponent = ({
               onClick={() => {
                 setBackgroundImage(null);
                 setSelectedColor('#ffffff');
+                if (fileInputRef.current) {
+                  fileInputRef.current.value = ''; // This clears the file input
+                }
               }}
               className="delete-btn"
             >

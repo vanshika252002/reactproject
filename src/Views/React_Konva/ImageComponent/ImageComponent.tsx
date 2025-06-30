@@ -172,7 +172,7 @@ const ImageComponent = ({
           </div>
 
           <div className="z-index-controls">
-            <h5>Layer Controls</h5>
+            <h4>Layer Controls</h4>
             <div className="z-index-buttons">
               <button onClick={bringToFront} className="layer-btn">
                 Bring to Front

@@ -660,6 +660,7 @@ button.layer-btn {
   align-content: center;
   flex-wrap: wrap;
   margin-bottom: 12px;
+  margin-left:25px;
 }
 
 .selected-text{
@@ -759,4 +760,7 @@ button:hover {
 
 button.save-btn {
   margin-top: 10px;
+}
+.image-controls {
+  padding: 14px;
 }

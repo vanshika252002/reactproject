@@ -64,9 +64,6 @@ const TemplateContainer = ({ isLoading, templates, loadTemplate }: any) => {
 
               <div className="template-info">
                 <span className="template-name">{template.name}</span>
-                <span className="template-date">
-                  {new Date(template.data.createdAt).toLocaleDateString()}
-                </span>
               </div>
 
               <button

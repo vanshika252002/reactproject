@@ -92,15 +92,12 @@ const CardWrapper = () => {
         container: document.createElement('div'),
       });
 
-      // Clone the original layer
       const originalLayer = stage.children[0];
       const clonedLayer = originalLayer.clone();
 
-      // Scale down the cloned layer
       clonedLayer.scale({ x: scale, y: scale });
       tempStage.add(clonedLayer);
 
-      // Generate data URL
       const dataURL = tempStage.toDataURL({
         width: thumbnailWidth,
         height: thumbnailHeight,
@@ -108,7 +105,6 @@ const CardWrapper = () => {
         pixelRatio: 1,
       });
 
-      // Clean up
       tempStage.destroy();
 
       return dataURL;
@@ -719,14 +715,11 @@ const CardWrapper = () => {
       onTransformEnd: () => {
         const node = stageRef.current?.findOne(`#${shape.id}`);
         if (node) {
-          // For all shapes, update position and rotation
           const updates: Partial<ShapeData> = {
             x: node.x(),
             y: node.y(),
             rotation: node.rotation(),
           };
-
-          // Shape-specific dimension updates
           switch (shape.type) {
             case 'rectangle':
             case 'ellipse':
@@ -748,12 +741,9 @@ const CardWrapper = () => {
               break;
           }
 
-          // Update state
           setShapes(
             shapes.map((s) => (s.id === shape.id ? { ...s, ...updates } : s))
           );
-
-          // Reset scale
           node.scaleX(1);
           node.scaleY(1);
           node.getLayer()?.batchDraw();
@@ -822,11 +812,8 @@ const CardWrapper = () => {
           ) as Konva.Image;
 
           if (node) {
-            // Calculate new dimensions based on scale
             const newWidth = Math.max(10, node.width() * node.scaleX());
             const newHeight = Math.max(10, node.height() * node.scaleY());
-
-            // Update state with new dimensions and reset scale
             setImages(
               images.map((img) =>
                 img.id === imageData.id
@@ -841,8 +828,6 @@ const CardWrapper = () => {
                   : img
               )
             );
-
-            // Reset scale after updating dimensions
             node.scaleX(1);
             node.scaleY(1);
             node.getLayer()?.batchDraw();
