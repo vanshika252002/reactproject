@@ -24,6 +24,7 @@ const RenderImage = ({
   selectedTextId,
   selectedImageId,
   selectedShapeId,
+  size,
 }: any) => {
   const localTransformerRef = useRef<any>(null);
 
@@ -59,14 +60,15 @@ const RenderImage = ({
       transformer.keepRatio(false);
     }
   }, [selectedTextId, selectedImageId, selectedShapeId]);
+  console.log(size);
 
   return (
     <div className="image">
-      <Stage ref={stageRef} width={600} height={700}>
+      <Stage ref={stageRef} width={size.width} height={size.height}>
         <Layer>
           <Rect
-            width={600}
-            height={700}
+            width={size.width}
+            height={size.height}
             fill={selectedColor}
             shadowColor="rgba(11, 5, 5, 0.5)"
             shadowBlur={10}
@@ -76,7 +78,11 @@ const RenderImage = ({
           />
 
           {backgroundImage && (
-            <KonvaImage image={backgroundImage} width={600} height={700} />
+            <KonvaImage
+              image={backgroundImage}
+              width={size.width}
+              height={size.height}
+            />
           )}
 
           {[...shapes, ...images, ...text].sort(sortByZIndex).map((element) => {
@@ -88,7 +94,6 @@ const RenderImage = ({
           <Transformer
             ref={transformerRef || localTransformerRef}
             boundBoxFunc={(oldBox, newBox) => {
-              // Prevent making the element too small
               if (newBox.width < 5 || newBox.height < 5) {
                 return oldBox;
               }

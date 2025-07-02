@@ -1,4 +1,4 @@
-// imports (create local bindings)
+
 import BIRTHDAY_CARD from './icons/card1.webp';
 import CARD_TEMPLATE1 from './icons/card2.jpg';
 import CARD_TEMPLATE2 from './icons/card3.jpg';
@@ -8,10 +8,13 @@ import DIWALI_CARD from './icons/card7.jpg';
 import PARTY_CARD from './icons/card8.jpg';
 import FESTIVAL_CARD from './icons/card9.jpg';
 import CARD_TEMPLATE4 from './icons/card10.jpg';
-import WEDDING_TEMPLATE from './icons/card13.jpg'
+import WEDDING_TEMPLATE from './icons/card13.jpg';
+import PROJECT_LOGO from './icons/project-logo.png';
+import LOGO from './icons/customcardlogo.png';
 
-// exports
 export {
+  LOGO,
+  PROJECT_LOGO,
   BIRTHDAY_CARD,
   CARD_TEMPLATE1,
   CARD_TEMPLATE2,
@@ -24,8 +27,10 @@ export {
   WEDDING_TEMPLATE,
 };
 
-// usable object
+
 export const IMAGES = {
+  LOGO,
+  PROJECT_LOGO,
   BIRTHDAY_CARD,
   CARD_TEMPLATE1,
   CARD_TEMPLATE2,

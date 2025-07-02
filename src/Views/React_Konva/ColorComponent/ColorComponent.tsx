@@ -34,7 +34,7 @@ const ColorComponent = ({
                 setBackgroundImage(null);
                 setSelectedColor('#ffffff');
                 if (fileInputRef.current) {
-                  fileInputRef.current.value = ''; // This clears the file input
+                  fileInputRef.current.value = '';
                 }
               }}
               className="delete-btn"

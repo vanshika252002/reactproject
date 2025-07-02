@@ -1,22 +1,22 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './choosetemplatesize.css';
+import { IMAGES } from '../../../assets';
+
 type SizeOption = {
   name: string;
-  width: string;
-  height: string;
+  width: number;
+  height: number;
 };
 
 const sizeOptions: SizeOption[] = [
-  { name: 'Flyer (US Letter)', width: '8.5in', height: '11in' },
-  { name: 'Poster', width: '24in', height: '36in' },
-  { name: 'Instagram Post', width: '1080px', height: '1080px' },
-  { name: 'Instagram Reel', width: '1000px', height: '1920px' },
-  { name: 'Album Cover', width: '1600px', height: '1600px' },
-  { name: 'Logo', width: '600px', height: '600px' },
-  { name: 'Business Card', width: '3.5in', height: '2in' },
+  { name: 'Logo', width: 600, height: 600 },
+  { name: 'Business Card', width: 336, height: 192 },
+  { name: 'US Legal', width: 816, height: 800 },
+  { name: 'A5', width: 559, height: 794 },
+  { name: 'A6', width: 397, height: 559 },
+  { name: 'Custom', width: 750, height: 750 },
 ];
-
 const ChooseTemplateSize = () => {
   const [selectedSize, setSelectedSize] = useState<SizeOption | null>(null);
   const navigate = useNavigate();
@@ -31,39 +31,46 @@ const ChooseTemplateSize = () => {
 
   return (
     <div className="container">
-      <h1 className="title">Choose Your Template Size</h1>
-
-      <div className="grid">
-        {sizeOptions.map((size, index) => (
-          <div
-            key={index}
-            className={`sizeOption ${
-              selectedSize?.name === size.name ? 'sizeOptionSelected' : ''
-            }`}
-            onClick={() => handleSizeSelect(size)}
-          >
-            <h3 className="sizeName">{size.name}</h3>
-            <p className="sizeDimensions">
-              {size.width} × {size.height}
-            </p>
-          </div>
-        ))}
+      <div className="title-project">
+        <img src={IMAGES.LOGO} />
       </div>
-
-      <button
-        onClick={handleStartDesigning}
-        className={`button ${!selectedSize ? 'buttonDisabled' : ''}`}
-        disabled={!selectedSize}
-      >
-        Start Designing
-      </button>
-
-      {selectedSize && (
-        <div className="selectedInfo">
-          Selected: {selectedSize.name} ({selectedSize.width} ×{' '}
-          {selectedSize.height})
+      <div className="choose-template-size">
+        <div className="title">
+          <h1 className="title">Get started with a design size</h1>
         </div>
-      )}
+
+        <div className="grid">
+          {sizeOptions.map((size, index) => (
+            <div
+              key={index}
+              className={`sizeOption ${
+                selectedSize?.name === size.name ? 'sizeOptionSelected' : ''
+              }`}
+              onClick={() => handleSizeSelect(size)}
+            >
+              <h3 className="sizeName">{size.name}</h3>
+              <p className="sizeDimensions">
+                {size.width} × {size.height}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <button
+          onClick={handleStartDesigning}
+          className={`button ${!selectedSize ? 'buttonDisabled' : ''}`}
+          disabled={!selectedSize}
+        >
+          Start Designing
+        </button>
+
+        {selectedSize && (
+          <div className="selectedInfo">
+            Selected: {selectedSize.name} ({selectedSize.width} ×{' '}
+            {selectedSize.height})
+          </div>
+        )}
+      </div>
     </div>
   );
 };

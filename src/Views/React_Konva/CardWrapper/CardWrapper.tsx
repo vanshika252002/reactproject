@@ -30,8 +30,13 @@ import TemplateContainer from '../TemplateContainer/TemplateContainer';
 import ColorComponent from '../ColorComponent/ColorComponent';
 import RenderImage from '../RenderComponent/RenderComponent';
 import FilterButtons from '../FilterButtons/FilterButtons';
+import { useLocation } from 'react-router-dom';
 
 const CardWrapper = () => {
+  const location = useLocation();
+  const selectedSize = location?.state?.size || undefined;
+  const [size] = useState(selectedSize || { height: 700, width: 600 });
+
   const [templates, setTemplates] = useState<
     { name: string; data: TemplateData }[]
   >([]);
@@ -278,8 +283,8 @@ const CardWrapper = () => {
       fontStyle: textFontWeight,
       fill: textColor,
       zIndex: maxZIndex + 1,
-      width: textInput.length * (textFontSize * 0.6), // Estimate width
-      height: textFontSize * 1.2, // Height based on font size
+      width: textInput.length * (textFontSize * 0.6),
+      height: textFontSize * 1.2,
     };
 
     setText([...text, newText]);
@@ -484,30 +489,6 @@ const CardWrapper = () => {
       }
     }
   };
-
-  // const updateImageProperty = (property: keyof ImageData, value: any) => {
-  //   if (selectedImageId) {
-  //     setImages(
-  //       images.map((image) =>
-  //         image.id === selectedImageId ? { ...image, [property]: value } : image
-  //       )
-  //     );
-  //   }
-  // };
-
-  //   if (selectedTextId) {
-  //     setText(
-  //       text.map((textItem) =>
-  //         textItem.id === selectedTextId
-  //           ? { ...textItem, [property]: value }
-  //           : textItem
-  //       )
-  //     );
-  //     if (property === 'fontSize') {
-  //       setTextFontSize(value);
-  //     }
-  //   }
-  // };
   const updateTextProperty = (property: keyof TextState, value: any) => {
     if (selectedTextId) {
       setText((prevText) =>
@@ -946,6 +927,7 @@ const CardWrapper = () => {
         selectedTextId={selectedTextId}
         selectedImageId={selectedImageId}
         selectedShapeId={selectedShapeId}
+        size={size}
       />
 
       {!activeFilter ? (
