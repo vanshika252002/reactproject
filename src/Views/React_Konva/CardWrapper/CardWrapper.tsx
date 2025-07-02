@@ -35,7 +35,7 @@ import { useLocation } from 'react-router-dom';
 const CardWrapper = () => {
   const location = useLocation();
   const selectedSize = location?.state?.size || undefined;
-  const [size] = useState(selectedSize || { height: 700, width: 600 });
+  const [size, setSize] = useState(selectedSize || { height: 700, width: 600 });
 
   const [templates, setTemplates] = useState<
     { name: string; data: TemplateData }[]
@@ -138,6 +138,9 @@ const CardWrapper = () => {
     setIsLoading(true);
     try {
       const templateData = await getTemplate(templateName);
+      if (templateData.frameSize) {
+        setSize(templateData.frameSize);
+      }
 
       setShapes(templateData.shapes);
       setText(templateData.text);
@@ -208,6 +211,7 @@ const CardWrapper = () => {
           ...(backgroundImageUrl && { imageUrl: backgroundImageUrl }),
         },
         thumbnail,
+        frameSize: size,
         createdAt: new Date().toISOString(),
       };
 

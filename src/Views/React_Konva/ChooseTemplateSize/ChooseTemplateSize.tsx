@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './choosetemplatesize.css';
-import { IMAGES } from '../../../assets';
 
 type SizeOption = {
   name: string;
@@ -11,7 +10,7 @@ type SizeOption = {
 
 const sizeOptions: SizeOption[] = [
   { name: 'Logo', width: 600, height: 600 },
-  { name: 'Business Card', width: 336, height: 192 },
+  { name: 'Business Card', width: 1050, height: 600 },
   { name: 'US Legal', width: 816, height: 800 },
   { name: 'A5', width: 559, height: 794 },
   { name: 'A6', width: 397, height: 559 },
@@ -31,12 +30,9 @@ const ChooseTemplateSize = () => {
 
   return (
     <div className="container">
-      <div className="title-project">
-        <img src={IMAGES.LOGO} />
-      </div>
       <div className="choose-template-size">
         <div className="title">
-          <h1 className="title">Get started with a design size</h1>
+          <span className="title">Get started with a design size</span>
         </div>
 
         <div className="grid">

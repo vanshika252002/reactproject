@@ -11,8 +11,11 @@ export interface TemplateData {
     imageUrl?: string;
   };
   createdAt?: string;
-
-  thumbnail?: string | null; // Add thumbnail field
+  frameSize?:{
+    width:number,
+    height:number
+  };
+  thumbnail?: string | null; 
 }
 const firebaseConfig = {
   apiKey: "AIzaSyDTb8Bnf2EygfB3haBdHInxkD5BAzduWHI",
