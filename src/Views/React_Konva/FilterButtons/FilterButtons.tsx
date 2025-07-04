@@ -1,14 +1,47 @@
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 const FilterButtons = ({
   activeFilter,
   setActiveFilter,
   handleDownload,
 }: any) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <div className="filters">
-      <button onClick={() => navigate('/chosen-template')}> to check </button>
+      {/* <button
+        className={`filter-btn${activeFilter === 'size' ? '-active' : ''}`}
+        onClick={() => {
+          navigate('/chosen-template');
+          setActiveFilter(activeFilter === 'size' ? null : 'size');
+        }}
+      >
+        <svg width="100" height="30" xmlns="http://www.w3.org/2000/svg">
+          <polyline
+            points="35 10, 29 13, 35 17"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+
+          <line
+            x1="35"
+            y1="13"
+            x2="70"
+            y2="13"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+
+          <polyline
+            points="70 9, 75 13, 70 17"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+
+        <span>Size</span>
+      </button> */}
       <button
         className={`filter-btn${activeFilter === 'save' ? '-active' : ''}`}
         onClick={() => setActiveFilter(activeFilter === 'save' ? null : 'save')}

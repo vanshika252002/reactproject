@@ -1,0 +1,20 @@
+.background-menu{
+    height:auto;
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    background-color: pink;
+z-index:999
+}
+.background-op{
+    margin-top: 231px;
+    height:auto;
+    width:auto;
+    display: flex;
+    flex-direction: column;
+     background-color: burlywood;
+     padding:5px;
+}
+.btn-background{
+  margin:5px;
+}

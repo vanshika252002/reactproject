@@ -1,4 +1,5 @@
 import '../../DynamicCss/CustomizeImage/CustomizeImage.css';
+import { useNavigate } from 'react-router-dom';
 import {
   saveTemplate,
   listTemplates,
@@ -34,8 +35,9 @@ import { useLocation } from 'react-router-dom';
 
 const CardWrapper = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const selectedSize = location?.state?.size || undefined;
-  const [size, setSize] = useState(selectedSize || { height: 700, width: 600 });
+  const [size] = useState(selectedSize || { height: 700, width: 600 });
 
   const [templates, setTemplates] = useState<
     { name: string; data: TemplateData }[]
@@ -55,6 +57,7 @@ const CardWrapper = () => {
     | 'download'
     | 'save'
     | 'template'
+    | 'size'
     | null
   >(null);
   const [shapes, setShapes] = useState<ShapeData[]>([]);
@@ -138,9 +141,15 @@ const CardWrapper = () => {
     setIsLoading(true);
     try {
       const templateData = await getTemplate(templateName);
-      if (templateData.frameSize) {
-        setSize(templateData.frameSize);
-      }
+      console.log('template data', templateData);
+
+      // if (templateWidth != size.width && templateHeight != size.height) {
+      //   return;
+      // }
+
+      // if (templateData.frameSize) {
+      //   setSize(templateData.frameSize);
+      // }
 
       setShapes(templateData.shapes);
       setText(templateData.text);
@@ -214,7 +223,7 @@ const CardWrapper = () => {
         frameSize: size,
         createdAt: new Date().toISOString(),
       };
-
+      console.log('template name in firebase', templateName);
       await saveTemplate(templateName, templateData);
 
       alert('Template saved successfully!');
@@ -351,7 +360,6 @@ const CardWrapper = () => {
   ) => {
     const newImages = images.map((image) => {
       if (image.id === imageId) {
-        console.log('x and y', image.x, image.y);
         return {
           ...image,
           x: e.target.x(),
@@ -677,6 +685,7 @@ const CardWrapper = () => {
   };
 
   const renderShape = (shape: ShapeData) => {
+    console.log('shape data', shape);
     const commonProps = {
       onMouseEnter: () => {
         const container = stageRef.current?.getStage().container();
@@ -699,6 +708,7 @@ const CardWrapper = () => {
         handleShapeDragEnd(e, shape.id),
       onTransformEnd: () => {
         const node = stageRef.current?.findOne(`#${shape.id}`);
+        console.log('node of the shape', node);
         if (node) {
           const updates: Partial<ShapeData> = {
             x: node.x(),
@@ -822,7 +832,6 @@ const CardWrapper = () => {
     );
   };
   const renderText = (textData: TextState) => {
-    console.log('newFontSize', textData.fontSize);
     return (
       <>
         <KonvaText
@@ -845,13 +854,12 @@ const CardWrapper = () => {
           onDblTap={() => handleTextClick(textData.id)}
           perfectDrawEnabled={false}
           listening={true}
-          onTransformEnd={(e) => {
-            console.log('node e', e.target);
+          onTransformEnd={() => {
             const node = stageRef.current?.findOne(
               `#${textData.id}`
             ) as Konva.Text;
+            console.log('node of text');
             if (node) {
-              console.log('node  information is ', node.attrs.fontSize);
               const scaleX = node.scaleX();
               const scaleY = node.scaleY();
 
@@ -935,7 +943,42 @@ const CardWrapper = () => {
       />
 
       {!activeFilter ? (
-        <div className="options-not-selected"></div>
+        <div className="options">
+          <h2 className="design-options">Design</h2>
+          <div className="temp-size">
+            <span>Size</span>
+            <button
+              className="size-dimensions"
+              onClick={() => navigate('/chosen-template')}
+            >
+              <span className="size-name">{size?.name}</span>
+              <span className="dimensions">
+                {size?.width}px x {size?.height}px
+              </span>
+            </button>
+          </div>
+          <div className="temp-size">
+            <span>Background</span>
+            {backgroundImage ? (
+              <div className="selected-image">
+                <img src={backgroundImage.src} />
+              </div>
+            ) : (
+              <div className="size-dimensions">
+                <div
+                  style={{
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '36px',
+                    border: '1px solid grey',
+                    backgroundColor: selectedColor,
+                  }}
+                ></div>
+                <span className="dimensions">{selectedColor}</span>
+              </div>
+            )}
+          </div>
+        </div>
       ) : (
         <div className="options">
           <h2 className="design-options">Design</h2>
@@ -1028,6 +1071,7 @@ const CardWrapper = () => {
               isLoading={isLoading}
               templates={templates}
               loadTemplate={loadTemplate}
+              size={size}
             />
           )}
         </div>

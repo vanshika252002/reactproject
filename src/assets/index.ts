@@ -11,8 +11,10 @@ import CARD_TEMPLATE4 from './icons/card10.jpg';
 import WEDDING_TEMPLATE from './icons/card13.jpg';
 import PROJECT_LOGO from './icons/project-logo.png';
 import LOGO from './icons/customcardlogo.png';
+import SIZE from './icons/size.png';
 
 export {
+  SIZE,
   LOGO,
   PROJECT_LOGO,
   BIRTHDAY_CARD,
@@ -29,6 +31,7 @@ export {
 
 
 export const IMAGES = {
+  SIZE,
   LOGO,
   PROJECT_LOGO,
   BIRTHDAY_CARD,

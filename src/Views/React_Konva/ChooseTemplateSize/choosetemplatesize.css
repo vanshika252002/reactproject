@@ -174,7 +174,7 @@
 }
 .title-project{
   display: flex;
-  padding-left: 44px;
+
 
   align-items: center;
   color: white;
@@ -188,7 +188,7 @@
   width: 12%;
   height: 131%;      
   color: #403f5d;
-  margin-left: -14px;
+  margin-left: 20px;
 }
 
 .choose-template-size{

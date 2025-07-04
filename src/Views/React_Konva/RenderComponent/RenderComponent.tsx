@@ -64,52 +64,57 @@ const RenderImage = ({
 
   return (
     <div className="image">
-      <Stage ref={stageRef} width={size.width} height={size.height}>
-        <Layer>
-          <Rect
-            width={size.width}
-            height={size.height}
-            fill={selectedColor}
-            shadowColor="rgba(11, 5, 5, 0.5)"
-            shadowBlur={10}
-            shadowOffset={{ x: 5, y: 5 }}
-            shadowOpacity={0.8}
-            listening={false}
-          />
-
-          {backgroundImage && (
-            <KonvaImage
-              image={backgroundImage}
+      <div className="template">
+        <Stage ref={stageRef} width={size.width} height={size.height}>
+          <Layer>
+            <Rect
               width={size.width}
               height={size.height}
+              fill={selectedColor}
+              shadowColor="rgba(11, 5, 5, 0.5)"
+              shadowBlur={10}
+              shadowOffset={{ x: 5, y: 5 }}
+              shadowOpacity={0.8}
+              listening={false}
             />
-          )}
 
-          {[...shapes, ...images, ...text].sort(sortByZIndex).map((element) => {
-            if ('type' in element) return renderShape(element as ShapeData);
-            else if ('src' in element) return renderImage(element as ImageData);
-            else return renderText(element as TextState);
-          })}
+            {backgroundImage && (
+              <KonvaImage
+                image={backgroundImage}
+                width={size.width}
+                height={size.height}
+              />
+            )}
 
-          <Transformer
-            ref={transformerRef || localTransformerRef}
-            boundBoxFunc={(oldBox, newBox) => {
-              if (newBox.width < 5 || newBox.height < 5) {
-                return oldBox;
-              }
-              return newBox;
-            }}
-            anchorSize={8}
-            borderEnabled={true}
-            borderStroke="#00ff00"
-            borderStrokeWidth={1}
-            anchorStroke="#00ff00"
-            anchorCornerRadius={4}
-            rotateAnchorOffset={30}
-            ignoreStroke={false}
-          />
-        </Layer>
-      </Stage>
+            {[...shapes, ...images, ...text]
+              .sort(sortByZIndex)
+              .map((element) => {
+                if ('type' in element) return renderShape(element as ShapeData);
+                else if ('src' in element)
+                  return renderImage(element as ImageData);
+                else return renderText(element as TextState);
+              })}
+
+            <Transformer
+              ref={transformerRef || localTransformerRef}
+              boundBoxFunc={(oldBox, newBox) => {
+                if (newBox.width < 5 || newBox.height < 5) {
+                  return oldBox;
+                }
+                return newBox;
+              }}
+              anchorSize={8}
+              borderEnabled={true}
+              borderStroke="#00ff00"
+              borderStrokeWidth={1}
+              anchorStroke="#00ff00"
+              anchorCornerRadius={4}
+              rotateAnchorOffset={30}
+              ignoreStroke={false}
+            />
+          </Layer>
+        </Stage>
+      </div>
     </div>
   );
 };
