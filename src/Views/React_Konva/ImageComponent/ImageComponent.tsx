@@ -1,4 +1,6 @@
-const ImageComponent = ({
+import { ImageComponentProps } from './types';
+
+function ImageComponent({
   handleImageClick,
   selectedImageId,
   images,
@@ -15,7 +17,7 @@ const ImageComponent = ({
   bringToFront,
   moveForward,
   moveBackward,
-}: any) => {
+}: ImageComponentProps) {
   return (
     <div className="image-upload-section">
       <div
@@ -36,9 +38,9 @@ const ImageComponent = ({
               viewBox="0 0 24 24"
               fill="none"
               stroke="white"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
               <polyline points="17 8 12 3 7 8" />
@@ -212,7 +214,7 @@ const ImageComponent = ({
         <div className="uploaded-images">
           <h4>Uploaded Images ({images.length})</h4>
           <div className="images-grid">
-            {images.map((image: any) => (
+            {images.map((image) => (
               <div
                 key={image.id}
                 className={`image-thumbnail ${
@@ -237,5 +239,5 @@ const ImageComponent = ({
       )}
     </div>
   );
-};
+}
 export default ImageComponent;

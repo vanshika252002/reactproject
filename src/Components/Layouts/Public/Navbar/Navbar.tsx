@@ -6,7 +6,7 @@ import Header from '../../../../Views/header/Header';
 export function Navbar() {
   return (
     <div>
-      {/*<header className="header d-flex" id="header">
+      {/* <header className="header d-flex" id="header">
       <Link to={ROUTES.HOMEPAGE}>Home page</Link>
       <Link to={ROUTES.LOGIN}>Login</Link>
     </header> */}

@@ -1,1 +1,1 @@
-export {default} from './CustomizeCard';
+export { default } from './CustomizeCard';

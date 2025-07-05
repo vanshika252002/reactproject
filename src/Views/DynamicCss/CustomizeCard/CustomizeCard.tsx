@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 // import '../../App.css';
 
-const CustomizeCard = () => {
+function CustomizeCard() {
   const location = useLocation();
   const { srcUrl } = location.state || {};
 
@@ -15,5 +15,5 @@ const CustomizeCard = () => {
       </div>
     </div>
   );
-};
+}
 export default CustomizeCard;

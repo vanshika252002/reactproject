@@ -11,6 +11,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './Store';
 import RootRouter from './Routes/RootRouter';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+
 const baseName = import.meta.env.VITE_BASE_NAME;
 
 const router = createBrowserRouter(

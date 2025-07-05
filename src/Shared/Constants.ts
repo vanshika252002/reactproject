@@ -6,11 +6,11 @@ const ROUTES = {
   CARD_WRAPPER: '/card-wrapper',
   REGISTER: '/register',
   ABOUT: '/about-us',
-  SIGNUP:'/signup',
+  SIGNUP: '/signup',
   CUSTOMIZE: '/customize',
   CUSTOMIZE_IMAGE: '/customize_image',
   KONVA_WRAPPER: '/konva',
-  TEMPLATE_SIZE: '/chosen-template'
+  TEMPLATE_SIZE: '/chosen-template',
 };
 
 const WILDCARD_ROUTES = {
@@ -19,23 +19,23 @@ const WILDCARD_ROUTES = {
 };
 
 const ROUTES_CONFIG = {
-  TEMPLATE:{
-  path:ROUTES.TEMPLATE_SIZE,
-  title: 'Template'
+  TEMPLATE: {
+    path: ROUTES.TEMPLATE_SIZE,
+    title: 'Template',
   },
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
     title: 'Master Plan',
   },
-  KONVA : {
+  KONVA: {
     path: ROUTES.KONVA_WRAPPER,
-    title: 'Konva Card'
+    title: 'Konva Card',
   },
-  CUSTOMIZE:{
+  CUSTOMIZE: {
     path: ROUTES.CUSTOMIZE,
     title: 'Customize',
   },
-  CUSTOMIZE_IMAGE:{
+  CUSTOMIZE_IMAGE: {
     path: ROUTES.CUSTOMIZE_IMAGE,
     title: 'Customize_IMAGE',
   },
@@ -51,15 +51,15 @@ const ROUTES_CONFIG = {
     path: ROUTES.ABOUT,
     title: 'About us',
   },
-  SIGNUP:{
-    path:ROUTES.SIGNUP,
-    title:'Sign Up',
-  }
+  SIGNUP: {
+    path: ROUTES.SIGNUP,
+    title: 'Sign Up',
+  },
 };
-const MESSAGES ={
-  NOTIFICATION :{
-    CARD_TITLE:"✨ Welcome! Let’s Customize Your Setup"
-  }
-}
+const MESSAGES = {
+  NOTIFICATION: {
+    CARD_TITLE: '✨ Welcome! Let’s Customize Your Setup',
+  },
+};
 
-export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG , MESSAGES };
+export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG, MESSAGES };

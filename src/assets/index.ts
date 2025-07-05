@@ -1,4 +1,3 @@
-
 import BIRTHDAY_CARD from './icons/card1.webp';
 import CARD_TEMPLATE1 from './icons/card2.jpg';
 import CARD_TEMPLATE2 from './icons/card3.jpg';
@@ -28,7 +27,6 @@ export {
   CARD_TEMPLATE4,
   WEDDING_TEMPLATE,
 };
-
 
 export const IMAGES = {
   SIZE,

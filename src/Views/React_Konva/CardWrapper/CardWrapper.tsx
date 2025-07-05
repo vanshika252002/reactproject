@@ -1,11 +1,5 @@
 import '../../DynamicCss/CustomizeImage/CustomizeImage.css';
-import { useNavigate } from 'react-router-dom';
-import {
-  saveTemplate,
-  listTemplates,
-  TemplateData,
-  getTemplate,
-} from '../firebase';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Stage as KonvaStage } from 'konva/lib/Stage';
 import Konva from 'konva';
@@ -21,7 +15,15 @@ import {
 } from 'react-konva';
 import { ColorResult } from '@hello-pangea/color-picker';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { ShapeData, ImageData, TextState } from '../types';
+import {
+  saveTemplate,
+  listTemplates,
+  TemplateData,
+  getTemplate,
+} from '../firebase';
+import { FontFamily } from '../TextComponent/types';
+import { Template } from '../TemplateContainer/types';
+import { ShapeData, CardImage, TextState } from '../types';
 import { sortByZIndex, handleDownload } from '../utils';
 import TextComponent from '../TextComponent/TextComponent';
 import ImageComponent from '../ImageComponent/ImageComponent';
@@ -31,17 +33,19 @@ import TemplateContainer from '../TemplateContainer/TemplateContainer';
 import ColorComponent from '../ColorComponent/ColorComponent';
 import RenderImage from '../RenderComponent/RenderComponent';
 import FilterButtons from '../FilterButtons/FilterButtons';
-import { useLocation } from 'react-router-dom';
 
-const CardWrapper = () => {
+type TemplateListItem = {
+  name: string;
+  data: TemplateData;
+};
+
+function CardWrapper() {
   const location = useLocation();
   const navigate = useNavigate();
   const selectedSize = location?.state?.size || undefined;
   const [size] = useState(selectedSize || { height: 700, width: 600 });
 
-  const [templates, setTemplates] = useState<
-    { name: string; data: TemplateData }[]
-  >([]);
+  const [templates, setTemplates] = useState<TemplateListItem[]>([]);
   const [templateName, setTemplateName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -61,7 +65,7 @@ const CardWrapper = () => {
     | null
   >(null);
   const [shapes, setShapes] = useState<ShapeData[]>([]);
-  const [images, setImages] = useState<ImageData[]>([]);
+  const [images, setImages] = useState<CardImage[]>([]);
   const [selectedShapeId, setSelectedShapeId] = useState<string | null>(null);
   const [selectedImageId, setSelectedImageId] = useState<string | null>(null);
   const [selectedTextId, setSelectedTextId] = useState<string | null>(null);
@@ -154,10 +158,10 @@ const CardWrapper = () => {
       setShapes(templateData.shapes);
       setText(templateData.text);
 
-      const restoredImages = await Promise.all(
+      const restoredImages: CardImage[] = await Promise.all(
         templateData.images.map(async (imgData) => {
           const img = new Image();
-          return new Promise((resolve) => {
+          return new Promise<CardImage>((resolve) => {
             img.onload = () => {
               resolve({
                 ...imgData,
@@ -168,7 +172,7 @@ const CardWrapper = () => {
           });
         })
       );
-      setImages(restoredImages as any);
+      setImages(restoredImages);
       setSelectedColor(templateData.background.color);
       if (templateData.background.imageUrl) {
         const bgImg = new Image();
@@ -292,7 +296,7 @@ const CardWrapper = () => {
       x: 20,
       y: 20,
       fontSize: textFontSize,
-      fontFamily: textFontFamily,
+      fontFamily: textFontFamily as FontFamily,
       fontStyle: textFontWeight,
       fill: textColor,
       zIndex: maxZIndex + 1,
@@ -324,7 +328,7 @@ const CardWrapper = () => {
       height: type === 'circle' ? 100 : 100,
       fill: shapeColor,
       stroke: strokeColor,
-      strokeWidth: strokeWidth,
+      strokeWidth,
       zIndex: maxZIndex + 1,
     };
 
@@ -441,7 +445,10 @@ const CardWrapper = () => {
       setTextColor(textItem.fill);
     }
   };
-  const updateShapeProperty = (property: keyof ShapeData, value: any) => {
+  const updateShapeProperty = (
+    property: keyof ShapeData,
+    value: number | string
+  ) => {
     if (selectedShapeId) {
       setShapes(
         shapes.map((shape) =>
@@ -457,19 +464,19 @@ const CardWrapper = () => {
         switch (property) {
           case 'width':
             if (shape.type === 'circle') {
-              (node as Konva.Circle).radius(value / 2);
+              (node as Konva.Circle).radius(Number(value) / 2);
             } else if (shape.type === 'ellipse') {
-              (node as Konva.Ellipse).radiusX(value / 2);
+              (node as Konva.Ellipse).radiusX(Number(value) / 2);
             } else {
-              node.width(value);
+              node.width(Number(value));
             }
             node.scaleX(1);
             break;
           case 'height':
             if (shape.type === 'ellipse') {
-              (node as Konva.Ellipse).radiusY(value / 2);
+              (node as Konva.Ellipse).radiusY(Number(value) / 2);
             } else {
-              node.height(value);
+              node.height(Number(value));
             }
             node.scaleY(1);
             break;
@@ -478,7 +485,7 @@ const CardWrapper = () => {
       }
     }
   };
-  const updateImageProperty = (property: keyof ImageData, value: any) => {
+  const updateImageProperty = (property: keyof CardImage, value: number) => {
     if (selectedImageId) {
       setImages((prevImages) =>
         prevImages.map((image) =>
@@ -501,7 +508,10 @@ const CardWrapper = () => {
       }
     }
   };
-  const updateTextProperty = (property: keyof TextState, value: any) => {
+  const updateTextProperty = (
+    property: keyof TextState,
+    value: string | number
+  ) => {
     if (selectedTextId) {
       setText((prevText) =>
         prevText.map((textItem) =>
@@ -511,7 +521,7 @@ const CardWrapper = () => {
         )
       );
       if (property === 'fontSize') {
-        setTextFontSize(value);
+        setTextFontSize(Number(value));
       }
     }
   };
@@ -607,6 +617,18 @@ const CardWrapper = () => {
       setSelectedTextId(null);
     }
   };
+  const convertTemplateListItemToTemplate = (
+    item: TemplateListItem
+  ): Template => {
+    return {
+      ...item,
+      data: {
+        ...item.data,
+        frameSize: item.data.frameSize || { width: 800, height: 600 }, // Provide default
+        thumbnail: item.data.thumbnail || '',
+      },
+    };
+  };
 
   const handleFileUpload = (files: FileList | null) => {
     if (!files) return;
@@ -640,7 +662,7 @@ const CardWrapper = () => {
               ...text.map((t) => t.zIndex),
               0
             );
-            const newImage: ImageData = {
+            const newImage: CardImage = {
               id: Date.now().toString() + Math.random(),
               src: e.target?.result as string,
               x: 20,
@@ -775,10 +797,10 @@ const CardWrapper = () => {
           />
         );
       default:
-        return null;
+        return <></>;
     }
   };
-  const renderImage = (imageData: ImageData) => {
+  const renderImage = (imageData: CardImage) => {
     const isSelected = imageData.id === selectedImageId;
     return (
       <KonvaImage
@@ -789,7 +811,7 @@ const CardWrapper = () => {
         y={imageData.y}
         width={imageData.width}
         height={imageData.height}
-        draggable={true}
+        draggable
         stroke={isSelected ? '#00ff00' : undefined}
         strokeWidth={isSelected ? 3 : undefined}
         onDragEnd={(e: KonvaEventObject<DragEvent>) =>
@@ -833,57 +855,55 @@ const CardWrapper = () => {
   };
   const renderText = (textData: TextState) => {
     return (
-      <>
-        <KonvaText
-          id={textData.id}
-          key={textData.id}
-          text={textData.text}
-          x={textData.x}
-          y={textData.y}
-          fontSize={textData.fontSize}
-          fontFamily={textData.fontFamily}
-          fontStyle={textData.fontStyle}
-          fill={textData.fill}
-          draggable={true}
-          onDragEnd={(e: KonvaEventObject<DragEvent>) =>
-            handleTextDragEnd(e, textData.id)
-          }
-          onClick={() => handleTextClick(textData.id)}
-          onTap={() => handleTextClick(textData.id)}
-          onDblClick={() => handleTextClick(textData.id)}
-          onDblTap={() => handleTextClick(textData.id)}
-          perfectDrawEnabled={false}
-          listening={true}
-          onTransformEnd={() => {
-            const node = stageRef.current?.findOne(
-              `#${textData.id}`
-            ) as Konva.Text;
-            console.log('node of text');
-            if (node) {
-              const scaleX = node.scaleX();
-              const scaleY = node.scaleY();
+      <KonvaText
+        id={textData.id}
+        key={textData.id}
+        text={textData.text}
+        x={textData.x}
+        y={textData.y}
+        fontSize={textData.fontSize}
+        fontFamily={textData.fontFamily}
+        fontStyle={textData.fontStyle}
+        fill={textData.fill}
+        draggable
+        onDragEnd={(e: KonvaEventObject<DragEvent>) =>
+          handleTextDragEnd(e, textData.id)
+        }
+        onClick={() => handleTextClick(textData.id)}
+        onTap={() => handleTextClick(textData.id)}
+        onDblClick={() => handleTextClick(textData.id)}
+        onDblTap={() => handleTextClick(textData.id)}
+        perfectDrawEnabled={false}
+        listening
+        onTransformEnd={() => {
+          const node = stageRef.current?.findOne(
+            `#${textData.id}`
+          ) as Konva.Text;
+          console.log('node of text');
+          if (node) {
+            const scaleX = node.scaleX();
+            const scaleY = node.scaleY();
 
-              const scaleFactor = Math.max(scaleX, scaleY);
-              const newFontSize = Math.max(8, textData.fontSize * scaleFactor);
+            const scaleFactor = Math.max(scaleX, scaleY);
+            const newFontSize = Math.max(8, textData.fontSize * scaleFactor);
 
-              updateTextProperty('x', node.x());
-              updateTextProperty('y', node.y());
-              updateTextProperty('width', node.textWidth);
-              updateTextProperty('height', node.textHeight);
+            updateTextProperty('x', node.x());
+            updateTextProperty('y', node.y());
+            updateTextProperty('width', node.textWidth);
+            updateTextProperty('height', node.textHeight);
 
-              updateTextProperty('fontSize', newFontSize);
-              updateTextProperty('scaleX', 1);
-              updateTextProperty('scaleY', 1);
+            updateTextProperty('fontSize', newFontSize);
+            updateTextProperty('scaleX', 1);
+            updateTextProperty('scaleY', 1);
 
-              if (selectedTextId === textData.id) {
-                setTextFontSize(newFontSize);
-              }
-
-              node.getLayer()?.batchDraw();
+            if (selectedTextId === textData.id) {
+              setTextFontSize(newFontSize);
             }
-          }}
-        />
-      </>
+
+            node.getLayer()?.batchDraw();
+          }
+        }}
+      />
     );
   };
   const selectedShape = shapes.find((s) => s.id === selectedShapeId);
@@ -948,6 +968,7 @@ const CardWrapper = () => {
           <div className="temp-size">
             <span>Size</span>
             <button
+              type="button"
               className="size-dimensions"
               onClick={() => navigate('/chosen-template')}
             >
@@ -973,7 +994,7 @@ const CardWrapper = () => {
                     border: '1px solid grey',
                     backgroundColor: selectedColor,
                   }}
-                ></div>
+                />
                 <span className="dimensions">{selectedColor}</span>
               </div>
             )}
@@ -994,12 +1015,13 @@ const CardWrapper = () => {
           )}
           {activeFilter === 'shape' && (
             <ShapeComponent
+              selectedImageId={selectedImageId}
               deleteSelectedShape={deleteSelectedShape}
               sendToBack={sendToBack}
               moveBackward={moveBackward}
               moveForward={moveForward}
               addShape={addShape}
-              selectedShape={selectedShape}
+              selectedShape={selectedShape || null}
               handleShapeColorChange={handleShapeColorChange}
               shapeColor={shapeColor}
               strokeColor={strokeColor}
@@ -1024,7 +1046,7 @@ const CardWrapper = () => {
               handleDrop={handleDrop}
               fileInputRef={fileInputRef}
               handleFileUpload={handleFileUpload}
-              selectedImage={selectedImage}
+              selectedImage={selectedImage || null}
               updateImageProperty={updateImageProperty}
               bringToFront={bringToFront}
               moveForward={moveForward}
@@ -1037,11 +1059,12 @@ const CardWrapper = () => {
               deleteSelectedText={deleteSelectedText}
               handleTextClick={handleTextClick}
               text={text}
+              stageRef={stageRef}
               bringToFront={bringToFront}
               moveForward={moveForward}
               moveBackward={moveBackward}
               sendToBack={sendToBack}
-              selectedText={selectedText}
+              selectedText={selectedText || null}
               textInput={textInput}
               setTextInput={setTextInput}
               addText={addText}
@@ -1051,7 +1074,7 @@ const CardWrapper = () => {
               updateTextProperty={updateTextProperty}
               textFontWeight={textFontFamily}
               setTextFontWeight={setTextFontFamily}
-              textFontFamily={textFontFamily}
+              textFontFamily={textFontFamily as FontFamily}
               setTextFontFamily={setTextFontFamily}
               textColor={textColor}
               handleTextColorChange={handleTextColorChange}
@@ -1064,12 +1087,13 @@ const CardWrapper = () => {
               handleSaveTemplate={handleSaveTemplate}
               generateThumbnail={generateThumbnail}
               isLoading={isLoading}
+              stageRef={stageRef}
             />
           )}
           {activeFilter === 'template' && (
             <TemplateContainer
               isLoading={isLoading}
-              templates={templates}
+              templates={templates.map(convertTemplateListItemToTemplate)}
               loadTemplate={loadTemplate}
               size={size}
             />
@@ -1078,6 +1102,6 @@ const CardWrapper = () => {
       )}
     </div>
   );
-};
+}
 
 export default CardWrapper;

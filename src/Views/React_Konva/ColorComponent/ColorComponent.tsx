@@ -1,13 +1,15 @@
 import { useRef } from 'react';
 import { SketchPicker } from '@hello-pangea/color-picker';
-const ColorComponent = ({
+import { ColorComponentProps } from './types';
+
+function ColorComponent({
   selectedColor,
   handleColorChange,
   handleFileUpload,
   backgroundImage,
   setBackgroundImage,
   setSelectedColor,
-}: any) => {
+}: ColorComponentProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   return (
     <div className="color-picker-container">
@@ -30,6 +32,7 @@ const ColorComponent = ({
           />
           {backgroundImage && (
             <button
+              type="button"
               onClick={() => {
                 setBackgroundImage(null);
                 setSelectedColor('#ffffff');
@@ -46,6 +49,6 @@ const ColorComponent = ({
       </div>
     </div>
   );
-};
+}
 
 export default ColorComponent;

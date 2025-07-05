@@ -6,10 +6,12 @@ import {
   Image as KonvaImage,
 } from 'react-konva';
 import '../../DynamicCss/CustomizeImage/CustomizeImage.css';
-import { ShapeData, ImageData, TextState } from '../types';
 import { useRef, useEffect } from 'react';
+import Konva from 'konva';
+import { ShapeData, CardImage, TextState } from '../types';
+import { RenderImageProps } from './types';
 
-const RenderImage = ({
+function RenderImage({
   stageRef,
   selectedColor,
   backgroundImage,
@@ -25,8 +27,8 @@ const RenderImage = ({
   selectedImageId,
   selectedShapeId,
   size,
-}: any) => {
-  const localTransformerRef = useRef<any>(null);
+}: RenderImageProps) {
+  const localTransformerRef = useRef<Konva.Transformer>(null);
 
   useEffect(() => {
     const transformer = transformerRef.current || localTransformerRef.current;
@@ -90,9 +92,8 @@ const RenderImage = ({
               .sort(sortByZIndex)
               .map((element) => {
                 if ('type' in element) return renderShape(element as ShapeData);
-                else if ('src' in element)
-                  return renderImage(element as ImageData);
-                else return renderText(element as TextState);
+                if ('src' in element) return renderImage(element as CardImage);
+                return renderText(element as TextState);
               })}
 
             <Transformer
@@ -104,7 +105,7 @@ const RenderImage = ({
                 return newBox;
               }}
               anchorSize={8}
-              borderEnabled={true}
+              borderEnabled
               borderStroke="#00ff00"
               borderStrokeWidth={1}
               anchorStroke="#00ff00"
@@ -117,6 +118,6 @@ const RenderImage = ({
       </div>
     </div>
   );
-};
+}
 
 export default RenderImage;

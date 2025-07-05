@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-const SaveTemplate = ({
+import { SaveTemplateProps } from './types';
+
+function SaveTemplate({
   templateName,
   setTemplateName,
   handleSaveTemplate,
   isLoading,
   stageRef,
   generateThumbnail,
-}: any) => {
+}: SaveTemplateProps) {
   const [previewThumbnail, setPreviewThumbnail] = useState<string | null>(null);
 
   const generatePreview = () => {
@@ -53,6 +55,6 @@ const SaveTemplate = ({
       </div>
     </div>
   );
-};
+}
 
 export default SaveTemplate;

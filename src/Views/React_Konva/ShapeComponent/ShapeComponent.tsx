@@ -1,7 +1,8 @@
 import { SketchPicker } from '@hello-pangea/color-picker';
 import { useEffect } from 'react';
+import { ShapeComponentProps } from './types';
 
-const ShapeComponent = ({
+function ShapeComponent({
   deleteSelectedShape,
   sendToBack,
   moveBackward,
@@ -17,7 +18,7 @@ const ShapeComponent = ({
   updateShapeProperty,
   bringToFront,
   selectedImageId,
-}: any) => {
+}: ShapeComponentProps) {
   useEffect(() => {}, [selectedImageId]);
   return (
     <div className="shape-options">
@@ -38,9 +39,9 @@ const ShapeComponent = ({
                 y="6"
                 width="16"
                 height="12"
-                stroke-width="0.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="0.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </button>
@@ -57,9 +58,9 @@ const ShapeComponent = ({
                 cx="12"
                 cy="12"
                 r="8"
-                stroke-width="0.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="0.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </button>
@@ -74,9 +75,9 @@ const ShapeComponent = ({
             >
               <polygon
                 points="12,4 4,20 20,20"
-                stroke-width="0.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="0.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 fill="none"
               />
             </svg>
@@ -92,9 +93,9 @@ const ShapeComponent = ({
             >
               <polygon
                 points="12,2 15,8.5 22,9.3 17,14 18.5,21 12,17.5 5.5,21 7,14 2,9.3 9,8.5"
-                stroke-width="0.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="0.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 fill="none"
               />
             </svg>
@@ -113,9 +114,9 @@ const ShapeComponent = ({
                 cy="12"
                 rx="9"
                 ry="6"
-                stroke-width="0.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="0.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </button>
@@ -232,6 +233,6 @@ const ShapeComponent = ({
       )}
     </div>
   );
-};
+}
 
 export default ShapeComponent;

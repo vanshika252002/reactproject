@@ -1,12 +1,14 @@
 import { useState } from 'react';
-const TemplateContainer = ({
+import { TemplateContainerProps } from './types';
+
+function TemplateContainer({
   isLoading,
   templates,
   loadTemplate,
   size,
-}: any) => {
+}: TemplateContainerProps) {
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
-  const compatibleTemplates = templates.filter((template: any) => {
+  const compatibleTemplates = templates.filter((template) => {
     return (
       template?.data?.frameSize?.width === size?.width &&
       template?.data?.frameSize?.height === size?.height
@@ -18,7 +20,7 @@ const TemplateContainer = ({
       <h4 className="color-title">Saved Templates</h4>
       {isLoading ? (
         <div className="loading-container">
-          <div className="loading-spinner"></div>
+          <div className="loading-spinner" />
           <span>Loading templates...</span>
         </div>
       ) : compatibleTemplates.length === 0 ? (
@@ -27,7 +29,7 @@ const TemplateContainer = ({
         </div>
       ) : (
         <div className="templates-grid">
-          {compatibleTemplates.map((template: any) => (
+          {compatibleTemplates.map((template) => (
             <div
               key={template.name}
               className={`template-item ${
@@ -95,5 +97,5 @@ const TemplateContainer = ({
       )}
     </div>
   );
-};
+}
 export default TemplateContainer;

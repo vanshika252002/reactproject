@@ -1,3 +1,3 @@
 export type Propstype = {
-    srcUrl?: string;
-  };
+  srcUrl?: string;
+};

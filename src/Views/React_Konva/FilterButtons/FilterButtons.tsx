@@ -1,47 +1,12 @@
-// import { useNavigate } from 'react-router-dom';
+import { FilterButtonsProps } from './types';
 
-const FilterButtons = ({
+function FilterButtons({
   activeFilter,
   setActiveFilter,
   handleDownload,
-}: any) => {
-  // const navigate = useNavigate();
+}: FilterButtonsProps) {
   return (
     <div className="filters">
-      {/* <button
-        className={`filter-btn${activeFilter === 'size' ? '-active' : ''}`}
-        onClick={() => {
-          navigate('/chosen-template');
-          setActiveFilter(activeFilter === 'size' ? null : 'size');
-        }}
-      >
-        <svg width="100" height="30" xmlns="http://www.w3.org/2000/svg">
-          <polyline
-            points="35 10, 29 13, 35 17"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-
-          <line
-            x1="35"
-            y1="13"
-            x2="70"
-            y2="13"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-
-          <polyline
-            points="70 9, 75 13, 70 17"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-        </svg>
-
-        <span>Size</span>
-      </button> */}
       <button
         className={`filter-btn${activeFilter === 'save' ? '-active' : ''}`}
         onClick={() => setActiveFilter(activeFilter === 'save' ? null : 'save')}
@@ -53,9 +18,9 @@ const FilterButtons = ({
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
           <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9l7 7v9a2 2 0 0 1-2 2z" />
           <polyline points="9 17 12 20 22 10" />
@@ -176,9 +141,9 @@ const FilterButtons = ({
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
           <polyline points="17 8 12 3 7 8" />
@@ -208,8 +173,8 @@ const FilterButtons = ({
             y="50%"
             dominantBaseline="middle"
             textAnchor="middle"
-            font-size="18"
-            font-family="sans-serif"
+            fontSize="18"
+            fontFamily="sans-serif"
             fill="currentColor"
           >
             T
@@ -255,6 +220,6 @@ const FilterButtons = ({
       </button>
     </div>
   );
-};
+}
 
 export default FilterButtons;

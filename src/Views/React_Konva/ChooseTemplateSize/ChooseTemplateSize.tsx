@@ -16,7 +16,7 @@ const sizeOptions: SizeOption[] = [
   { name: 'A6', width: 397, height: 559 },
   { name: 'Custom', width: 750, height: 750 },
 ];
-const ChooseTemplateSize = () => {
+function ChooseTemplateSize() {
   const [selectedSize, setSelectedSize] = useState<SizeOption | null>(null);
   const navigate = useNavigate();
 
@@ -53,6 +53,7 @@ const ChooseTemplateSize = () => {
         </div>
 
         <button
+          type="button"
           onClick={handleStartDesigning}
           className={`button ${!selectedSize ? 'buttonDisabled' : ''}`}
           disabled={!selectedSize}
@@ -69,6 +70,6 @@ const ChooseTemplateSize = () => {
       </div>
     </div>
   );
-};
+}
 
 export default ChooseTemplateSize;

@@ -1,8 +1,9 @@
 import { SketchPicker } from '@hello-pangea/color-picker';
 import { useEffect, useRef } from 'react';
 import Konva from 'konva';
+import { TextComponentProps, FontFamily, FontWeight } from './types';
 
-const TextComponent = ({
+function TextComponent({
   deleteSelectedText,
   handleTextClick,
   text,
@@ -25,7 +26,7 @@ const TextComponent = ({
   textColor,
   handleTextColorChange,
   stageRef,
-}: any) => {
+}: TextComponentProps) {
   const transformerRef = useRef<Konva.Transformer>(null);
 
   useEffect(() => {
@@ -133,7 +134,7 @@ const TextComponent = ({
             className="font-weight-property"
             value={textFontWeight}
             onChange={(e) => {
-              setTextFontWeight(e.target.value);
+              setTextFontWeight(e.target.value as FontWeight);
               if (selectedTextId) {
                 updateTextProperty('fontStyle', e.target.value);
               }
@@ -152,7 +153,7 @@ const TextComponent = ({
             className="font-family-property"
             value={textFontFamily}
             onChange={(e) => {
-              setTextFontFamily(e.target.value);
+              setTextFontFamily(e.target.value as FontFamily);
               if (selectedTextId) {
                 updateTextProperty('fontFamily', e.target.value);
               }
@@ -292,7 +293,7 @@ const TextComponent = ({
         <div className="text-list">
           <h4>Text Elements ({text.length})</h4>
           <div className="text-items">
-            {text.map((textItem: any) => (
+            {text.map((textItem) => (
               <div
                 key={textItem.id}
                 className={`text-item ${
@@ -313,5 +314,5 @@ const TextComponent = ({
       )}
     </div>
   );
-};
+}
 export default TextComponent;
