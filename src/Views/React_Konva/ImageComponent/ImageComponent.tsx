@@ -30,8 +30,8 @@ function ImageComponent({
         <div className="drag-drop-content">
           <p>Add your media</p>
           <span>You can upload your media from your device.</span>
-          <button>
-            type="button"
+          <button   type="button">
+          
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
