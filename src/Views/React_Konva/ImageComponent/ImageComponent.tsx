@@ -31,6 +31,7 @@ function ImageComponent({
           <p>Add your media</p>
           <span>You can upload your media from your device.</span>
           <button>
+            type="button"
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -176,16 +177,16 @@ function ImageComponent({
           <div className="z-index-controls">
             <h4>Layer Controls</h4>
             <div className="z-index-buttons">
-              <button onClick={bringToFront} className="layer-btn">
+              <button  type="button" onClick={bringToFront} className="layer-btn">
                 Bring to Front
               </button>
-              <button onClick={moveForward} className="layer-btn">
+              <button  type="button" onClick={moveForward} className="layer-btn">
                 Move Forward
               </button>
-              <button onClick={moveBackward} className="layer-btn">
+              <button type="button" onClick={moveBackward} className="layer-btn">
                 Move Backward
               </button>
-              <button onClick={sendToBack} className="layer-btn">
+              <button type="button" onClick={sendToBack} className="layer-btn">
                 Send to Back
               </button>
             </div>
@@ -203,7 +204,7 @@ function ImageComponent({
           </div>
 
           <div className="delete-text">
-            <button onClick={deleteSelectedImage} className="delete-btn">
+            <button type="button" onClick={deleteSelectedImage} className="delete-btn">
               Delete Image
             </button>
           </div>

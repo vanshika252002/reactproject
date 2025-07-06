@@ -25,7 +25,7 @@ function ShapeComponent({
       <div className="shape-buttons">
         <h4 className="color-title">Add Shapes</h4>
         <div className="shapes">
-          <button onClick={() => addShape('rectangle')}>
+          <button type="button" onClick={() => addShape('rectangle')}>
             <svg
               width="90"
               height="90"
@@ -45,7 +45,7 @@ function ShapeComponent({
               />
             </svg>
           </button>
-          <button onClick={() => addShape('circle')}>
+          <button type="button" onClick={() => addShape('circle')}>
             <svg
               width="90"
               height="90"
@@ -64,7 +64,7 @@ function ShapeComponent({
               />
             </svg>
           </button>
-          <button onClick={() => addShape('triangle')}>
+          <button type="button" onClick={() => addShape('triangle')}>
             <svg
               width="90"
               height="90"
@@ -82,7 +82,7 @@ function ShapeComponent({
               />
             </svg>
           </button>
-          <button onClick={() => addShape('star')}>
+          <button type="button" onClick={() => addShape('star')}>
             <svg
               width="90"
               height="90"
@@ -100,7 +100,7 @@ function ShapeComponent({
               />
             </svg>
           </button>
-          <button onClick={() => addShape('ellipse')}>
+          <button type="button" onClick={() => addShape('ellipse')}>
             <svg
               width="90"
               height="90"
@@ -198,16 +198,16 @@ function ShapeComponent({
               <div className="z-index-controls">
                 <h4>Layer Controls</h4>
                 <div className="z-index-buttons">
-                  <button onClick={bringToFront} className="layer-btn">
+                  <button type="button" onClick={bringToFront} className="layer-btn">
                     Bring to Front
                   </button>
-                  <button onClick={moveForward} className="layer-btn">
+                  <button type="button" onClick={moveForward} className="layer-btn">
                     Move Forward
                   </button>
-                  <button onClick={moveBackward} className="layer-btn">
+                  <button type="button" onClick={moveBackward} className="layer-btn">
                     Move Backward
                   </button>
-                  <button onClick={sendToBack} className="layer-btn">
+                  <button type="button" onClick={sendToBack} className="layer-btn">
                     Send to Back
                   </button>
                 </div>
@@ -224,7 +224,7 @@ function ShapeComponent({
                 </div>
               </div>
 
-              <button onClick={deleteSelectedShape} className="delete-btn">
+              <button type="button" onClick={deleteSelectedShape} className="delete-btn">
                 Delete Shape
               </button>
             </div>

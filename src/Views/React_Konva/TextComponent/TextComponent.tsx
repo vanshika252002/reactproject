@@ -255,16 +255,16 @@ function TextComponent({
           <div className="z-index-controls">
             <h4>Layer Controls</h4>
             <div className="z-index-buttons">
-              <button onClick={bringToFront} className="layer-btn">
+              <button type="button"onClick={bringToFront} className="layer-btn">
                 Bring to Front
               </button>
-              <button onClick={moveForward} className="layer-btn">
+              <button type="button" onClick={moveForward} className="layer-btn">
                 Move Forward
               </button>
-              <button onClick={moveBackward} className="layer-btn">
+              <button  type="button" onClick={moveBackward} className="layer-btn">
                 Move Backward
               </button>
-              <button onClick={sendToBack} className="layer-btn">
+              <button type="button" onClick={sendToBack} className="layer-btn">
                 Send to Back
               </button>
             </div>
@@ -282,7 +282,7 @@ function TextComponent({
           </div>
 
           <div className="delete-text">
-            <button onClick={deleteSelectedText} className="delete-btn">
+            <button type="button" onClick={deleteSelectedText} className="delete-btn">
               Delete Text
             </button>
           </div>

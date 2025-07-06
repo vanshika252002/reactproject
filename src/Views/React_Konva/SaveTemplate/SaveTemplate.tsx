@@ -46,6 +46,7 @@ function SaveTemplate({
           maxLength={50}
         />
         <button
+        type="button"
           onClick={handleSaveTemplate}
           disabled={isLoading || !templateName.trim()}
           className="save-btn"

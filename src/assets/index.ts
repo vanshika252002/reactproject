@@ -11,8 +11,25 @@ import WEDDING_TEMPLATE from './icons/card13.jpg';
 import PROJECT_LOGO from './icons/project-logo.png';
 import LOGO from './icons/customcardlogo.png';
 import SIZE from './icons/size.png';
+import TEMPLATES from './icons/templates.svg';
+import BACKGROUND from './icons/background.svg';
+import DOWNLOAD from './icons/download.svg';
+import SAVE from './icons/save.svg';
+import SHAPES from './icons/shapes.svg';
+import TEMPLATE from './icons/templates.svg';
+import UPLOAD from './icons/upload.svg';
+import TEXT from './icons/text.svg';
+
 
 export {
+  TEXT,
+  SAVE,
+  UPLOAD,
+  SHAPES,
+  DOWNLOAD ,
+  BACKGROUND,
+   TEMPLATE,
+  TEMPLATES,
   SIZE,
   LOGO,
   PROJECT_LOGO,
@@ -29,8 +46,15 @@ export {
 };
 
 export const IMAGES = {
+  SAVE,
+  UPLOAD,
+  DOWNLOAD ,
+  BACKGROUND,
+   TEMPLATE,
+  TEMPLATES,
   SIZE,
   LOGO,
+  TEXT,
   PROJECT_LOGO,
   BIRTHDAY_CARD,
   CARD_TEMPLATE1,
@@ -42,4 +66,5 @@ export const IMAGES = {
   FESTIVAL_CARD,
   CARD_TEMPLATE4,
   WEDDING_TEMPLATE,
+  SHAPES
 };
